@@ -6,32 +6,29 @@ con.row_factory = sqlite3.Row
 cur = con.cursor()
 
 def movies():
-    cur.execute(f'SELECT * FROM movies ORDER BY release_year')
+    cur.execute('SELECT * FROM movies ORDER BY release_year')
     return cur.fetchall()
 
-def movie(id):
-    cur.execute(f'SELECT * FROM movies WHERE id = ?', (id,))
+def movie(movie_id):
+    cur.execute('SELECT * FROM movies WHERE id = ?', (movie_id,))
     return cur.fetchone()
 
 def credits(movie_id):
-    cur.execute(f'SELECT * FROM credits WHERE movie_id = ?', (movie_id,))
+    cur.execute('SELECT * FROM credits WHERE movie_id = ?', (movie_id,))
     return cur.fetchall()
 
 def genres():
-    cur.execute(f'SELECT * FROM genres')
-    return [row[0] for row in cur.fetchall()]
+    cur.execute('SELECT * FROM genres')
+    return [r['name'] for r in cur.fetchall()]
 
-def ppr(rows):
-    pp([dict(r) for r in rows])
-
-def main():
-    print("# ONF MOVIES")    
-    print("## ALL MOVIES")
-    ppr(movies())
-    print("## MOVIE #1")
+def test():
+    pp([dict(r) for r in movies()])
+    print('-------------------------------')
     pp(dict(movie(1)))
-    print("### CREDITS")
-    ppr(credits(1))
+    print('-------------------------------')
+    pp([dict(r) for r in credits(1)])
+    print('-------------------------------')
+    pp(genres())
 
 if __name__ == '__main__':
-    main()
+    test()
