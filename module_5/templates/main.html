@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+<table>
+  <tr>
+    <th></th>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Year</th>
+    <th>Genre</th>
+    <th>Rating</th>
+  {% for movie in movies %}
+  <tr>
+    <td>
+      <img src="static/movie-poster-{{ movie.id }}-thumbnail.jpg" height="100px"/>
+    </td>
+    <td>{{ movie.id }}</td>
+    <td><a href="movie.html">{{ movie.title }}</a></td>
+    <td>{{ movie.year }}</td>
+    <td>{{ movie.genre }}</td>
+    <td>{{ movie.rating }}/6</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

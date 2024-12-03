@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h2>{{ movie.title }}</h2>
+<div id="movie-details">
+  <div id="movie-poster"><img src="static/movie-poster-{{ movie.id }}.jpg" height="100px"/></div>
+  <ul id="movie-meta">
+    <li><strong>Release Year:</strong> {{ movie.year }}</li>
+    <li><strong>Genre:</strong>, {{ movie.genre }}</li>
+    <li><strong>Rating:</strong>, {{ movie.rating }}/6</li>
+  </ul>
+</div>
+<table id="credits">
+  <tr><th>Name</th><th>Role</th>
+  {% for credit in credits %}
+  <tr><td>{{ credit.name }}</td><td>{{ credit.role }}</td></tr>
+  {% endfor %}
+</table>
+<p><a href="edit-movie.html">Edit</a>
+
+{% endblock %}

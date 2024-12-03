@@ -1,0 +1,52 @@
+html {
+    margin: 0 auto;
+    padding: 0;
+    max-width: 700px;
+    background-color: #a0a0a9;
+    font-family: Verdana; color: #111;
+    height: 100%;
+}
+
+body {
+    background-color: #fafafa;
+    padding: 2em;
+    min-height: 100%;
+    margin: 0;
+    box-shadow: 4px 0px 12px #333, -4px 0px 12px #333;
+}
+
+nav {
+    border: thin solid black;
+    border-left: none;
+    border-right: none;
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    padding-right: 1em;
+}
+
+td {
+    padding-right: 1em;
+}
+
+#movie-poster {
+    float: left;
+}
+
+#movie-meta {
+    float: left;
+    padding-left: 2em;
+}
+
+#credits {
+    clear: both;
+    padding-top: 1em;
+}

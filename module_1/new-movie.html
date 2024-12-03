@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ONF Movies</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/app.css"/>
+  </head>
+  <body>
+    <header>
+      <h1>ONF Movies</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="main.html">Home</a></li>
+        <li><a href="new-movie.html">New Movie</a></li>
+      </ul>
+    </nav>
+    <section>
+      
+
+<h2>New Movie</h2>
+
+<form action="main.html" method="POST">
+  <div>
+    <label for="title">Movie Title:</label>
+    <input type="text" id="title" name="title" value="" required>
+  </div>
+  <div>
+    <label for="year">Release Year:</label>
+    <input type="number" id="year" name="year" value="" min="1888" required>
+  </div>
+  <div>
+    <label for="genre">Genre:</label>
+    <select id="genre" name="genre" required>
+      
+      <option value="Action" >Action</option>
+      
+      <option value="Action/Comedy" >Action/Comedy</option>
+      
+      <option value="Comedy" >Comedy</option>
+      
+      <option value="Comedy/Horror" >Comedy/Horror</option>
+      
+      <option value="Comedy/Mockumentary" >Comedy/Mockumentary</option>
+      
+      <option value="Comedy/Sci-Fi" >Comedy/Sci-Fi</option>
+      
+      <option value="Drama" >Drama</option>
+      
+      <option value="Fantasy/Adventure" >Fantasy/Adventure</option>
+      
+      <option value="Horror" >Horror</option>
+      
+      <option value="Romance" >Romance</option>
+      
+      <option value="Sci-Fi" >Sci-Fi</option>
+      
+    </select>
+  </div>
+
+  <br><br>
+
+  <h3>Credits</h3>
+  <div id="credits">
+    
+    <div class="credit">
+      <label for="name_0">Name:</label>
+      <input type="text" id="name_0" name="participants[0][name]" value="">
+      <label for="role_0">Role:</label>
+      <input type="text" id="role_0" name="participants[0][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_1">Name:</label>
+      <input type="text" id="name_1" name="participants[1][name]" value="">
+      <label for="role_1">Role:</label>
+      <input type="text" id="role_1" name="participants[1][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_2">Name:</label>
+      <input type="text" id="name_2" name="participants[2][name]" value="">
+      <label for="role_2">Role:</label>
+      <input type="text" id="role_2" name="participants[2][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_3">Name:</label>
+      <input type="text" id="name_3" name="participants[3][name]" value="">
+      <label for="role_3">Role:</label>
+      <input type="text" id="role_3" name="participants[3][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_4">Name:</label>
+      <input type="text" id="name_4" name="participants[4][name]" value="">
+      <label for="role_4">Role:</label>
+      <input type="text" id="role_4" name="participants[4][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_5">Name:</label>
+      <input type="text" id="name_5" name="participants[5][name]" value="">
+      <label for="role_5">Role:</label>
+      <input type="text" id="role_5" name="participants[5][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_6">Name:</label>
+      <input type="text" id="name_6" name="participants[6][name]" value="">
+      <label for="role_6">Role:</label>
+      <input type="text" id="role_6" name="participants[6][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_7">Name:</label>
+      <input type="text" id="name_7" name="participants[7][name]" value="">
+      <label for="role_7">Role:</label>
+      <input type="text" id="role_7" name="participants[7][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_8">Name:</label>
+      <input type="text" id="name_8" name="participants[8][name]" value="">
+      <label for="role_8">Role:</label>
+      <input type="text" id="role_8" name="participants[8][role]" value="">
+    </div>
+    
+    <div class="credit">
+      <label for="name_9">Name:</label>
+      <input type="text" id="name_9" name="participants[9][name]" value="">
+      <label for="role_9">Role:</label>
+      <input type="text" id="role_9" name="participants[9][role]" value="">
+    </div>
+    
+  </div>
+  <button type="button" onclick="addCredit()">Add credit</button><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+
+  function addCredit() {
+      let creditCount = document.getElementsByClassName('credit').length;
+      const creditsDiv = document.getElementById('credits');
+      const newCredit = document.createElement('div');
+      newCredit.className = 'credit';
+      newCredit.innerHTML = `
+          <label for="name_${creditCount}">Name:</label>
+          <input type="text" id="name_${creditCount}" name="credits[${creditCount - 1}][name]">
+          <label for="role_${creditCount}">Role:</label>
+          <input type="text" id="role_${creditCount}" name="credits[${creditCount - 1}][role]">
+      `;
+      creditsDiv.appendChild(newCredit);
+  }
+</script>
+
+    </section>
+  </body>
+</html>
