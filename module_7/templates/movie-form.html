@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h2>{{title}}</h2>
+
+<form action="main.html" method="POST">
+  <div>
+    <label for="title">Movie Title:</label>
+    <input type="text" id="title" name="title" value="{{ movie.title }}" required>
+  </div>
+  <div>
+    <label for="year">Release Year:</label>
+    <input type="number" id="year" name="year" value="{{ movie.release_year }}" min="1888" required>
+  </div>
+  <div>
+    <label for="genre">Genre:</label>
+    <select id="genre" name="genre" required>
+      {% for g in genres %}
+      <option value="{{g}}" {% if movie.genre == g %}selected{% endif %}>{{g}}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <br><br>
+
+  <h3>Credits</h3>
+  <div id="credits">
+    {% for i in range(10) %}
+    <div class="credit">
+      <label for="name_{{i}}">Name:</label>
+      <input type="text" id="name_{{i}}" name="participants[{{i}}][name]" value="{{credits[i].name}}">
+      <label for="role_{{i}}">Role:</label>
+      <input type="text" id="role_{{i}}" name="participants[{{i}}][role]" value="{{credits[i].role}}">
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" onclick="addCredit()">Add credit</button><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+
+  function addCredit() {
+      let creditCount = document.getElementsByClassName('credit').length;
+      const creditsDiv = document.getElementById('credits');
+      const newCredit = document.createElement('div');
+      newCredit.className = 'credit';
+      newCredit.innerHTML = `
+          <label for="name_${creditCount}">Name:</label>
+          <input type="text" id="name_${creditCount}" name="credits[${creditCount - 1}][name]">
+          <label for="role_${creditCount}">Role:</label>
+          <input type="text" id="role_${creditCount}" name="credits[${creditCount - 1}][role]">
+      `;
+      creditsDiv.appendChild(newCredit);
+  }
+</script>
+{% endblock %}
