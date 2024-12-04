@@ -32,12 +32,24 @@ def update(movie):
     cur.execute('UPDATE movies set title = ?, release_year = ?, genre = ?, rating = ? WHERE id = ?', 
                 (movie['title'], int(movie['release_year']), movie['genre'], 
                  int(movie['rating']), int(movie['id'])))
-    names = list(filter(None, movie.getlist('participants[name]')))
-    roles = list(filter(None, movie.getlist('participants[role]')))
-    ids = [int(movie['id']) for _ in range(len(names))]
-    credits = list(zip(ids, names, roles))
     cur.execute('DELETE FROM credits WHERE movie_id = ?', (movie['id'],))
+    _add_credits(cur, int(movie['id']), movie)
+
+def add(movie):
+    cur = cursor()
+    cur.execute('INSERT INTO movies (title, release_year, genre, rating) VALUES (?,?,?,?)',
+                (movie['title'], int(movie['release_year']), movie['genre'], int(movie['rating'])))
+    id = cur.lastrowid
+    _add_credits(cur, id, movie)
+    return id
+
+def _add_credits(cur, id, movie):
+    names = list(filter(None, movie.getlist('credits[name]')))
+    roles = list(filter(None, movie.getlist('credits[role]')))
+    ids = [id] * len(names)
+    credits = list(zip(ids, names, roles))
     cur.executemany('INSERT INTO credits (movie_id, name, role) VALUES (?, ?, ?)', credits)
+
 
 def test():
     pp([dict(r) for r in movies()])

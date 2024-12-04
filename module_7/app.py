@@ -21,7 +21,8 @@ def new_movie():
     no_credits = [{} for _ in range(10)]
     response = render_template('movie-form.html',
                                movie={},
-                               credits=no_credits)
+                               credits=no_credits,
+                               genres=database.genres())
     return  response
 
 @app.route('/edit_movie/<int:id>')

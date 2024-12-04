@@ -33,9 +33,9 @@
     {% for i in range(10) %}
     <div class="credit">
       <label for="name_{{i}}">Name:</label>
-      <input type="text" id="name_{{i}}" name="participants[name]" value="{{credits[i].name}}">
+      <input type="text" id="name_{{i}}" name="credits[name]" value="{{credits[i].name}}">
       <label for="role_{{i}}">Role:</label>
-      <input type="text" id="role_{{i}}" name="participants[role]" value="{{credits[i].role}}">
+      <input type="text" id="role_{{i}}" name="credits[role]" value="{{credits[i].role}}">
     </div>
     {% endfor %}
   </div>
