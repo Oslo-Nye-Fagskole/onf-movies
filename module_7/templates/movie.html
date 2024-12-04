@@ -16,6 +16,6 @@
   <tr><td>{{ credit.name }}</td><td>{{ credit.role }}</td></tr>
   {% endfor %}
 </table>
-<p><a href="edit-movie.html">Edit</a>
+<p><a href="{{ url_for('edit_movie', id=movie.id) }}">Edit</a>
 
 {% endblock %}
