@@ -3,14 +3,19 @@
 
 <h2>{{title}}</h2>
 
-<form action="main.html" method="POST">
+<form action="{{ url_for('save_movie') }}" method="POST">
+  <input type="hidden" name="id" value="{{ movie.id }}">
   <div>
     <label for="title">Movie Title:</label>
     <input type="text" id="title" name="title" value="{{ movie.title }}" required>
   </div>
   <div>
     <label for="year">Release Year:</label>
-    <input type="number" id="year" name="year" value="{{ movie.release_year }}" min="1888" required>
+    <input type="number" id="year" name="release_year" value="{{ movie.release_year }}" min="1888" required>
+  </div>
+  <div>
+    <label for="rating">Rating:</label>
+    <input type="number" id="rating" name="rating" value="{{ movie.rating }}" min="1" max="6" required>/6
   </div>
   <div>
     <label for="genre">Genre:</label>
@@ -28,9 +33,9 @@
     {% for i in range(10) %}
     <div class="credit">
       <label for="name_{{i}}">Name:</label>
-      <input type="text" id="name_{{i}}" name="participants[{{i}}][name]" value="{{credits[i].name}}">
+      <input type="text" id="name_{{i}}" name="participants[name]" value="{{credits[i].name}}">
       <label for="role_{{i}}">Role:</label>
-      <input type="text" id="role_{{i}}" name="participants[{{i}}][role]" value="{{credits[i].role}}">
+      <input type="text" id="role_{{i}}" name="participants[role]" value="{{credits[i].role}}">
     </div>
     {% endfor %}
   </div>

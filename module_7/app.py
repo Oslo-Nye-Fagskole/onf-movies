@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, request, redirect, url_for
 
 import database
 
@@ -26,7 +26,6 @@ def new_movie():
 
 @app.route('/edit_movie/<int:id>')
 def edit_movie(id):
-    breakpoint
     credits = database.credits(id)
     print(dict(database.movie(id)))
     padded_credits = credits + [{} for _ in range(10 - len(credits))]
@@ -35,3 +34,14 @@ def edit_movie(id):
                                credits=padded_credits,
                                genres=database.genres())
     return  response
+
+@app.route('/save_movie', methods=['POST'])
+def save_movie():
+    print(request.form)
+    movie = request.form
+    id = movie['id']
+    if id == '':
+       id = database.add(movie)
+    else:
+        database.update(movie)
+    return redirect(url_for('show_movie', id=id))

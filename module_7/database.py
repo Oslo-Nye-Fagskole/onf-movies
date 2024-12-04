@@ -2,7 +2,7 @@ import sqlite3
 from pprint import pp
 
 def cursor():
-    con = sqlite3.connect("movie_database.db")
+    con = sqlite3.connect("movie_database.db", autocommit=True)
     con.row_factory = sqlite3.Row
     con.set_trace_callback(lambda query: print(f'Executed SQL: {query}'))
     return con.cursor()
@@ -26,6 +26,18 @@ def genres():
     cur = cursor()
     cur.execute('SELECT * FROM genres')
     return [r['name'] for r in cur.fetchall()]
+
+def update(movie):
+    cur = cursor()
+    cur.execute('UPDATE movies set title = ?, release_year = ?, genre = ?, rating = ? WHERE id = ?', 
+                (movie['title'], int(movie['release_year']), movie['genre'], 
+                 int(movie['rating']), int(movie['id'])))
+    names = list(filter(None, movie.getlist('participants[name]')))
+    roles = list(filter(None, movie.getlist('participants[role]')))
+    ids = [int(movie['id']) for _ in range(len(names))]
+    credits = list(zip(ids, names, roles))
+    cur.execute('DELETE FROM credits WHERE movie_id = ?', (movie['id'],))
+    cur.executemany('INSERT INTO credits (movie_id, name, role) VALUES (?, ?, ?)', credits)
 
 def test():
     pp([dict(r) for r in movies()])
