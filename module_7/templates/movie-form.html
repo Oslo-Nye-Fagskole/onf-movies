@@ -53,9 +53,9 @@
       newCredit.className = 'credit';
       newCredit.innerHTML = `
           <label for="name_${creditCount}">Name:</label>
-          <input type="text" id="name_${creditCount}" name="credits[${creditCount - 1}][name]">
+          <input type="text" id="name_${creditCount}" name="credits[name]">
           <label for="role_${creditCount}">Role:</label>
-          <input type="text" id="role_${creditCount}" name="credits[${creditCount - 1}][role]">
+          <input type="text" id="role_${creditCount}" name="credits[role]">
       `;
       creditsDiv.appendChild(newCredit);
   }
