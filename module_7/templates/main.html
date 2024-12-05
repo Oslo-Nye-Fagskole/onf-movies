@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'helpers.html' as h %}
 {% block content %}
 <table>
   <tr>
@@ -10,9 +11,7 @@
     <th>Rating</th>
   {% for movie in movies %}
   <tr>
-    <td>
-      <img src="{{ url_for('static', filename='movie-poster-%i-thumbnail.jpg' % movie.id) }}" height="100px"/>
-    </td>
+    <td>{{ h.thumbnail(movie.id) }}</td>
     <td>{{ movie.id }}</td>
     <td><a href="{{ url_for('show_movie', id=movie.id) }}">{{ movie.title }}</a></td>
     <td>{{ movie.release_year }}</td>

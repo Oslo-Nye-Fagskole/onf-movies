@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
+{% import 'helpers.html' as h %}
 {% block content %}
-
 <h2>{{ movie.title }}</h2>
 <div id="movie-details">
-  <div id="movie-poster"><img src="{{ url_for('static', filename='movie-poster-%i-thumbnail.jpg' % movie.id) }}" height="100px"/></div>
+  <div id="movie-poster">{{ h.thumbnail(movie.id) }}</div>
   <ul id="movie-meta">
     <li><strong>Release Year:</strong> {{ movie.release_year }}</li>
     <li><strong>Genre:</strong> {{ movie.genre }}</li>

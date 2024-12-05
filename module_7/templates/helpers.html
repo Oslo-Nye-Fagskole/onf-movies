@@ -1,0 +1,4 @@
+{% macro thumbnail(id) -%}
+<img src="{{ url_for('static', filename='movie-poster-%i-thumbnail.jpg' % id) }}" height="100px"/>
+{%- endmacro %}
+
