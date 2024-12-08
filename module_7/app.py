@@ -1,48 +1,59 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for
 
-import database
+from database import MovieDatabase
 
 app = Flask('ONF Movies', static_folder='static')
 
+@app.before_request
+def load_db():
+    g.db = MovieDatabase()
+
 @app.route("/")
 def index():
-    response = render_template('main.html', movies=database.movies())
+    response = render_template('main.html', movies=g.db.movies())
     return response
 
 @app.route('/movie/<int:id>')
 def show_movie(id):
     response = render_template('movie.html',
-                               movie=database.movie(id),
-                               credits=database.credits(id))
+                               movie=g.db.movie(id),
+                               credits=g.db.credits(id))
     return response
 
-@app.route('/new_movie')
+@app.route('/movie/new')
 def new_movie():
     no_credits = [{} for _ in range(10)]
     response = render_template('movie-form.html',
                                movie={},
                                credits=no_credits,
-                               genres=database.genres())
+                               genres=g.db .genres())
     return  response
 
-@app.route('/edit_movie/<int:id>')
+@app.route('/movie/<int:id>/edit')
 def edit_movie(id):
-    credits = database.credits(id)
-    print(dict(database.movie(id)))
+    credits = g.db .credits(id)
+    print(dict(g.db .movie(id)))
     padded_credits = credits + [{} for _ in range(10 - len(credits))]
     response = render_template('movie-form.html',
-                               movie=database.movie(id),
+                               movie=g.db .movie(id),
                                credits=padded_credits,
-                               genres=database.genres())
+                               genres=g.db .genres())
     return  response
 
-@app.route('/save_movie', methods=['POST'])
+@app.route('/movie/save', methods=['POST'])
 def save_movie():
-    print(request.form)
     movie = request.form
     id = movie['id']
     if id == '':
-       id = database.add(movie)
+       id = g.db .add(movie)
     else:
-        database.update(movie)
+        g.db .update(movie)
+    _set_credits(g, int(id), movie)
     return redirect(url_for('show_movie', id=id))
+
+def _set_credits(g, id, form):
+    names = list(filter(None, form.getlist('credits[name]')))
+    roles = list(filter(None, form.getlist('credits[role]')))
+    ids = [id] * len(names)
+    credits = list(zip(ids, names, roles))
+    g.db.set_credits(id, credits)
