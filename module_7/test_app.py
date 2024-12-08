@@ -1,31 +1,18 @@
-import unittest
+import shared_setup
 from bs4 import BeautifulSoup
 
-from database import MovieDatabase
 import app as main_app
 
-class DatabaseTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.database = MovieDatabase(':memory:')
-        with open("movie_database_dump.sql", "r") as file:
-            sql_script = file.read()
-        cursor = cls.database.cursor()
-        cursor.executescript(sql_script)
+class DatabaseTestCase(shared_setup.MovieTestCase):
 
     def setUp(self):
-        self.database = self.__class__.database
-        self.database.cursor().execute('BEGIN TRANSACTION')
+        super().setUp()
 
-         # Initialize Flask test client
         app = main_app.app
         main_app.db = self.database
         app.config['DEBUG'] = True
         self.app = app.test_client()
         self.app.testing = True
-
-    def tearDown(self):
-        self.database.cursor().execute('ROLLBACK')
 
     def test_main(self):
         response = self.app.get('/')
@@ -64,5 +51,24 @@ class DatabaseTestCase(unittest.TestCase):
         self.assertEqual(save_response.request.path, "/movie/10")
         self.assertEqual(save_response.status_code, 200)
 
+    def test_edit_movie(self):
+        response = self.app.get('/movie/1/edit')
+        self.assertEqual(response.status_code, 200)
 
-   
+        soup = BeautifulSoup(response.data, 'html.parser')
+        url = soup.find('form')['action']
+        save_response = self.app.post('/movie/save', data={
+            'id': '1',
+            'title': 'Test Movie',
+            'genre': 'Comedy',
+            'release_year': 2024,
+            'rating': 2,
+            'credits[name]': 'Test Name',
+            'credits[role]': 'Test Role',
+        }, follow_redirects=True)
+        self.assertEqual(len(save_response.history), 1)
+        self.assertEqual(save_response.request.path, "/movie/1")
+        self.assertEqual(save_response.status_code, 200)
+    
+
+        

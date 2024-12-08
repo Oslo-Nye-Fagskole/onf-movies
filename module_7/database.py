@@ -10,6 +10,9 @@ class MovieDatabase:
             con.set_trace_callback(lambda query: print(f'Executed SQL: {query}'))
         self.connection = con
 
+    def close(self):
+        self.connection.close()
+
     def cursor(self):
         return self.connection.cursor()
 

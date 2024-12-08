@@ -1,23 +1,8 @@
-import unittest
+import shared_setup
 
 from database import MovieDatabase
 
-class DatabaseTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.database = MovieDatabase(':memory:')
-        with open("movie_database_dump.sql", "r") as file:
-            sql_script = file.read()
-        cursor = cls.database.cursor()
-        cursor.executescript(sql_script)
-
-    def setUp(self):
-        self.database = self.__class__.database
-        self.database.cursor().execute('BEGIN TRANSACTION')
-
-    def tearDown(self):
-        self.database.cursor().execute('ROLLBACK')
-
+class DatabaseTestCase(shared_setup.MovieTestCase):
     def test_movies(self):
         movies = self.database.movies()
         self.assertEqual(len(movies), 9)

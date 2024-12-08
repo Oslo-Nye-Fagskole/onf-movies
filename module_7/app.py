@@ -33,7 +33,6 @@ def new_movie():
 @app.route('/movie/<int:id>/edit')
 def edit_movie(id):
     credits = g.db .credits(id)
-    print(dict(g.db .movie(id)))
     padded_credits = credits + [{} for _ in range(10 - len(credits))]
     response = render_template('movie-form.html',
                                movie=g.db .movie(id),
