@@ -3,10 +3,11 @@ from flask import Flask, g, render_template, request, redirect, url_for
 from database import MovieDatabase
 
 app = Flask('ONF Movies', static_folder='static')
+db = MovieDatabase()
 
 @app.before_request
 def load_db():
-    g.db = MovieDatabase()
+    g.db = db
 
 @app.route("/")
 def index():
