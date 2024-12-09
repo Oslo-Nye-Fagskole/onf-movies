@@ -3,11 +3,14 @@ from flask import Flask, g, render_template, request, redirect, url_for
 from database import MovieDatabase
 
 app = Flask('ONF Movies', static_folder='static')
-db = MovieDatabase()
+database = None
 
 @app.before_request
 def load_db():
-    g.db = db
+    if database:
+        g.db = database
+    else:
+        g.db = MovieDatabase()
 
 @app.route("/")
 def index():
@@ -45,9 +48,9 @@ def save_movie():
     movie = request.form
     id = movie['id']
     if id == '':
-       id = g.db .add(movie)
+       id = g.db.add(movie)
     else:
-        g.db .update(movie)
+        g.db.update(movie)
     _set_credits(g, int(id), movie)
     return redirect(url_for('show_movie', id=id))
 

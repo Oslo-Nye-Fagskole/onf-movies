@@ -3,13 +3,13 @@ from bs4 import BeautifulSoup
 
 import app as main_app
 
-class DatabaseTestCase(shared_setup.MovieTestCase):
+class AppTestCase(shared_setup.MovieTestCase):
 
     def setUp(self):
         super().setUp()
 
         app = main_app.app
-        main_app.db = self.database
+        main_app.database = self.database
         app.config['DEBUG'] = True
         self.app = app.test_client()
         self.app.testing = True
@@ -38,7 +38,7 @@ class DatabaseTestCase(shared_setup.MovieTestCase):
 
         soup = BeautifulSoup(response.data, 'html.parser')
         url = soup.find('form')['action']
-        save_response = self.app.post('/movie/save', data={
+        save_response = self.app.post(url, data={
             'id': '',
             'title': 'Test Movie',
             'genre': 'Comedy',
